@@ -1,0 +1,31 @@
+.df {
+  display: flex;
+}
+.fdc {
+  flex-direction: column;
+}
+.jcc {
+  justify-content: center;
+}
+.aic {
+  align-items: center;
+}
+.f1 {
+  flex: 1;
+}
+.fn {
+  flex: none;
+}
+.jcsa {
+  justify-content: space-around;
+}
+.jcsb {
+  justify-content: space-between;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+.mt10 {
+  margin-top: 10px;
+}
