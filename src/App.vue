@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>sell manage</h1>
+    <h1>sell manage  </h1>
   </div>
 </template>
 
