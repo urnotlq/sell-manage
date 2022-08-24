@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <h1>sell manage  </h1>
-    <i class="iconfont icon-user"></i>
-    <el-button>按钮</el-button>
+  <div class="app">
+    <router-view></router-view>
   </div>
 </template>
 
@@ -13,5 +11,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .app{
+    height: 100%;
+  }
 </style>
