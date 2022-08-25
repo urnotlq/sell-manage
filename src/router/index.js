@@ -83,7 +83,7 @@ const routes = [
                     import ('@/views/account/account-add'),
             },
             {
-                // 账号管理
+                // 账号列表
                 path: '/account-list',
                 component: () =>
                     import ('@/views/account/account-list'),
@@ -136,5 +136,11 @@ const routes = [
 const router = new VueRouter({
     routes
 })
+
+// 处理重复点击导航 路由push地址冗余 控制台报错
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(to) {
+    return VueRouterPush.call(this, to).catch(err => err)
+}
 
 export default router

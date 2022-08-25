@@ -35,4 +35,9 @@ export default {
 .layout{
     height: 100%;
 }
+
+.content{
+    padding: 16px;
+    overflow-y: scroll;
+}
 </style>
