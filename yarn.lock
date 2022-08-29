@@ -3353,7 +3353,7 @@ electron-to-chromium@^1.4.202:
 
 element-ui@^2.15.9:
   version "2.15.9"
-  resolved "https://registry.npmmirror.com/element-ui/-/element-ui-2.15.9.tgz#b03548e007b7ab7496c49a282db92a0fffd7efc7"
+  resolved "https://repo.huaweicloud.com/repository/npm/element-ui/-/element-ui-2.15.9.tgz#b03548e007b7ab7496c49a282db92a0fffd7efc7"
   integrity sha512-dx45nQLt4Hn87/Z9eRr3ex6KFZbxlFAwEU3QoW3wA5EsYftvHTyL9Pq7VnXXD7hu1Eiaup2jcs6kp+/VSFmXuA==
   dependencies:
     async-validator "~1.8.1"

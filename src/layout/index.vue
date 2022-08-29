@@ -34,6 +34,7 @@ export default {
 <style lang="scss" scoped>
 .layout{
     height: 100%;
+    background: $grayLight;
 }
 
 .content{
