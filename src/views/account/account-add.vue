@@ -12,6 +12,7 @@
          ref="formRef" 
          label-width="90px" 
          size="medium"
+         hide-required-asterisk
          >
             <!-- 账号 -->
             <el-form-item prop="account" label="账号">
@@ -37,6 +38,8 @@
 </template>
 
 <script>
+// 引入校验规则函数 
+import { checkAccount, checkPassword } from '@/utils'
 export default {
     data() {
         return {
@@ -49,12 +52,10 @@ export default {
             // 表单验证
             rules: {
                 account: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' },
-                    { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
+                    { validator: checkAccount, trigger: 'blur' }
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
+                    { validator: checkPassword, trigger: 'blur' }
                 ],
                 userGroup: [
                     { required: true, message: '请选择用户组', trigger: 'blur' },

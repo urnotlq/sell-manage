@@ -42,6 +42,8 @@
 </template>
 
 <script>
+// 引入校验规则函数 
+import { checkAccount, checkPassword } from '@/utils'
 export default {
     data() {
         return {
@@ -52,14 +54,13 @@ export default {
                 account:'',
                 password:'',
             },
+            // 表单校验规则
             rules: {
                 account: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' },
-                    { min: 3, max: 12, message: '长度在 3 到 12 个字符', trigger: 'blur' }
+                    { validator: checkAccount, trigger: 'blur' }
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur' },
-                    { min: 6, max: 18, message: '长度在 6 到 18 个字符', trigger: 'blur' }
+                    { validator: checkPassword, trigger: 'blur' }
                 ],
             },
 
