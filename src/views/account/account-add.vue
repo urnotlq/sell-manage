@@ -22,7 +22,7 @@
             <el-form-item prop="password" label="密码">
                 <el-input type="password" v-model="formData.password"></el-input>
             </el-form-item>
-            <!-- 账号 -->
+            <!-- 用户组 -->
             <el-form-item prop="userGroup" label="用户组">
                 <el-select v-model="formData.userGroup" placeholder="请选择">
                     <el-option label="超级管理员" value="超级管理员"></el-option>
