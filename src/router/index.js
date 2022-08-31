@@ -7,24 +7,30 @@ import Login from '@/views/login';
 
 Vue.use(VueRouter)
 
+/* 通过 this.$route [路由信息对象] 中的meta属性 可以存储一些信息*/
+
 // 配合页面级别组件与路由地址的一一对应关系
 const routes = [
     // 登录
     {
         path: '/login',
-        component: Login
+        component: Login,
     },
-    // 重定向
+    // 首页重定向
     {
         path: '/',
-        redirect: '/home'
+        redirect: '/home',
     },
     // 后台首页
     {
-        path: '',
+        path: '/home',
         component: Layout,
-        children: [{
+        meta: {
             path: '/home',
+            title: '后台首页'
+        },
+        children: [{
+            path: '',
             // 懒加载
             component: () =>
                 import ('@/views/home')
@@ -32,91 +38,156 @@ const routes = [
     },
     // 订单管理
     {
-        path: '',
+        path: '/order',
         component: Layout,
-        children: [{
+        meta: {
             path: '/order',
+            title: '订单管理'
+        },
+        children: [{
+            path: '',
             component: () =>
                 import ('@/views/order')
         }]
     },
     // 商品管理
     {
-        path: '',
+        path: '/goods',
         component: Layout,
-        children: [{ // 商品列表
+        redirect: '/goods-list',
+        meta: {
+            path: '/goods',
+            title: '商品管理'
+        },
+        children: [
+            // 商品列表
+            {
                 path: '/goods-list',
                 component: () =>
-                    import ('@/views/goods/goods-list')
+                    import ('@/views/goods/goods-list'),
+                meta: {
+                    path: '/goods-list',
+                    title: '商品列表'
+                },
             },
-            { // 商品添加
+            // 商品添加
+            {
                 path: '/goods-add',
                 component: () =>
-                    import ('@/views/goods/goods-add')
+                    import ('@/views/goods/goods-add'),
+                meta: {
+                    path: '/goods-add',
+                    title: '商品添加'
+                },
             },
-            { // 商品分类
+            // 商品分类
+            {
                 path: '/goods-class',
                 component: () =>
-                    import ('@/views/goods/goods-class')
+                    import ('@/views/goods/goods-class'),
+                meta: {
+                    path: '/goods-class',
+                    title: '商品分类'
+                },
             },
 
         ]
     },
     // 店铺管理
     {
-        path: '',
+        path: '/shop',
         component: Layout,
-        children: [{
+        meta: {
             path: '/shop',
+            title: '店铺管理'
+        },
+        children: [{
+            path: '',
             component: () =>
                 import ('@/views/shop')
         }]
     },
     // 账号管理
     {
-        path: '',
+        path: '/account',
         component: Layout,
-        children: [{
-                // 添加账号
-                path: '/account-add',
-                component: () =>
-                    import ('@/views/account/account-add'),
-            },
+        redirect: '/account-list',
+        meta: {
+            path: '/account',
+            title: '账号管理'
+        },
+        children: [
+            // 账号列表
             {
-                // 账号列表
                 path: '/account-list',
                 component: () =>
                     import ('@/views/account/account-list'),
+                meta: {
+                    path: '/account-list',
+                    title: '账号列表'
+                },
             },
+            // 添加账号
             {
-                // 修改密码
+                path: '/account-add',
+                component: () =>
+                    import ('@/views/account/account-add'),
+                meta: {
+                    path: '/account-add',
+                    title: '添加账号'
+                },
+            },
+            // 修改密码
+            {
                 path: '/password-modify',
                 component: () =>
                     import ('@/views/account/password-modify'),
+                meta: {
+                    path: '/password-modify',
+                    title: '修改密码'
+                },
             },
+            // 个人中心
             {
-                // 个人中心
                 path: '/person-center',
                 component: () =>
                     import ('@/views/account/person-center'),
+                meta: {
+                    path: '/person-center',
+                    title: '个人中心'
+                },
             },
         ]
     },
     // 销售统计
     {
-        path: '',
+        path: '/total',
         component: Layout,
-        children: [{
-                // 商品统计
+        redirect: '/total-goods',
+        meta: {
+            path: '/total',
+            title: '销售统计'
+        },
+        children: [
+            // 商品统计
+            {
                 path: '/total-goods',
                 component: () =>
                     import ('@/views/total/total-goods'),
+                meta: {
+                    path: '/total-goods',
+                    title: '商品统计'
+                },
             },
+            // 订单统计
             {
-                // 订单统计
                 path: '/total-order',
                 component: () =>
                     import ('@/views/total/total-order'),
+                meta: {
+                    path: '/total-order',
+                    title: '订单统计'
+                },
             },
         ]
     },
@@ -124,8 +195,7 @@ const routes = [
     {
         path: '*',
         redirect: '/404',
-    },
-    {
+    }, {
         path: '/404',
         component: () =>
             import ('@/views/error404')
