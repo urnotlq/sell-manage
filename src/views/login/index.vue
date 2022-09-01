@@ -44,6 +44,9 @@
 <script>
 // 引入校验规则函数 
 import { checkAccount, checkPassword } from '@/utils'
+// 引入接口函数
+import { checkLoginReq } from '@/api/user.js';
+
 export default {
     data() {
         return {
@@ -69,11 +72,23 @@ export default {
     methods: {
         submitForm(formName) {
             // validate 表单校验方法  valid返回true或false 表示校验结果
-            this.$refs[formName].validate( (valid)=>{
-                console.log(valid);
+            this.$refs[formName].validate(async (valid)=>{
+                // 表单校验判断
                 if(valid){
-                    // 校验成功 可以发送请求传递数据
-                    console.log('validate succeed');
+                    // 发送请求
+                    let res = await checkLoginReq(this.formData)
+                    // 解构数据
+                    let {code,msg,role,token} = res.data;
+                    // 根据返回的数据做行动
+                    if(code === 0){
+                        // 成功 弹出消息 存储token 跳转首页
+                        this.$message.success(msg)
+                        localStorage.setItem('t_k', token)
+                        this.$router.push('/')
+                    }else{
+                        // 失败
+                        this.$message.error(msg)
+                    }
                 } else {
                     // 校验失败
                     console.log('validate ERROR');

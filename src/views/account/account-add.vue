@@ -40,6 +40,8 @@
 <script>
 // 引入校验规则函数 
 import { checkAccount, checkPassword } from '@/utils'
+// 引入接口函数
+import { addUserReq } from '@/api/user.js';
 export default {
     data() {
         return {
@@ -65,9 +67,21 @@ export default {
     },
     methods: {
         addAccount(){
-            this.$refs.formRef.validate(vilid => {
+            this.$refs.formRef.validate(async (vilid) => {
                 if (vilid) {
-                    console.log('提交数据', this.formData);
+                    // 发送请求
+                    let res = await addUserReq(this.formData)
+                    // 解构数据
+                    let {code, msg} = res.data
+                    // 返回判断
+                    if(code === 0){
+                        // 请求成功 弹出消息框 返回账号列表页面
+                        this.$message.success(msg)
+                        this.$router.push('/account')
+                    }else{
+                        // 请求失败
+                        this.$message.error(msg)
+                    }
                 } else {
                     console.log('校验失败');
                 }
