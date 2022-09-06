@@ -38,3 +38,21 @@ export const delUserReq = (params) => {
         params
     })
 }
+
+// 添加账号接口 
+export const editUserReq = (data) => {
+    return request({
+        url: '/users/edit',
+        method: 'post',
+        data
+    })
+}
+
+// 删除账号接口
+export const batchDelUserReq = (params) => {
+    return request({
+        url: '/users/batchdel',
+        method: 'get',
+        params
+    })
+}

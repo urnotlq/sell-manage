@@ -11,6 +11,15 @@ import '@/assets/fonts/iconfont.css';
 // 引入ElementUI
 import 'element-ui/lib/theme-chalk/index.css';
 
+// 全局过滤器
+import * as filters from '@/filters';
+Object.keys(filters).forEach(key => {
+    // 循环注册过滤器
+    Vue.filter(key, filters[key]);
+});
+// 引入的 filters 是一个对象
+// Object.keys() 方法会返回一个由一个给定对象的自身可枚举属性组成的数组
+
 
 Vue.config.productionTip = false
 

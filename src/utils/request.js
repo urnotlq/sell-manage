@@ -8,7 +8,7 @@ axios.defaults.baseURL = 'http://localhost:5000'
 // 默认超时时间
 axios.defaults.timeout = 10000
 
-// 请求拦截器
+// 请求拦截器 携带统一参数
 axios.interceptors.request.use(config => {
     // 通过config.headers 里配置一个同后端商量好的字段并携带从后台取出的token 发送请求
     config.headers.authorization = localStorage.getItem('t_k')

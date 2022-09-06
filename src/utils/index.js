@@ -26,3 +26,13 @@ export const checkPassword = (rule, value, callback) => {
         callback();
     }
 };
+
+// 日期格式化 年/月/日
+// export const formatDateYMD = (data) => {
+//     let time = new Date(data); // 获取时间
+//     let Y = time.getFullYear(); // 年
+//     let M = time.getMonth() + 1; // 月
+//     let D = time.getDate(); //日
+//     // 处理显示格式
+//     return [Y, M, D].map(v => String(v).padStart(2, '0')).join('/');
+// }
