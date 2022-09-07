@@ -20,6 +20,8 @@ Object.keys(filters).forEach(key => {
 // 引入的 filters 是一个对象
 // Object.keys() 方法会返回一个由一个给定对象的自身可枚举属性组成的数组
 
+// 创建中央事件总线
+Vue.prototype.$bus = new Vue();
 
 Vue.config.productionTip = false
 

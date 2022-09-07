@@ -16,7 +16,7 @@
         <div class="df aic">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
-                    欢迎您，酥肉<i class="el-icon-arrow-down el-icon--right"></i>
+                    欢迎您，{{userInfo.account}}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="person">个人中心</el-dropdown-item>
@@ -24,12 +24,14 @@
                 </el-dropdown-menu>
             </el-dropdown>
 
-            <el-avatar class="el-avatar" :size="40" :src="avatar"></el-avatar>
+            <el-avatar class="el-avatar" :size="40" :src="userInfo.imgUrl || avatar"></el-avatar>
         </div>
     </div>
 </template>
 
 <script>
+// 引入ajax接口函数
+import { getUserInfoReq } from '@/api/user.js';
 export default {
     data() {
         return {
@@ -37,6 +39,8 @@ export default {
             avatar: require('@/assets/imgs/logo.png'),
             // 面包屑导航数据列表
             breadList:[ ],
+            // 用户信息
+            userInfo: {},
         }
     },
     methods:{
@@ -48,7 +52,8 @@ export default {
                     this.$router.push('/person-center');
                     break;
                 case 'logout':
-                    // 页面数据处理
+                    // 页面数据处理 清除登录信息
+                    localStorage.clear();
                     // 跳转至登录
                     this.$router.push('/login');
                     break;
@@ -71,13 +76,27 @@ export default {
                 }
             });
             // console.log(this.breadList);
-        }
+        },
+        // 获取个人信息
+        async getUserInfo() {
+            // 发送请求
+            let res = await getUserInfoReq();
+            // 传递数据
+            this.userInfo = res.data;
+            // 将用户信息打入本地 供其他页面使用
+            localStorage.setItem('userInfo', JSON.stringify(res.data));
+        },
     },
-    // created() {
-    //     // 刷新页面更新面包屑导航
-    //     this.calcBreadList();
-    // },
-
+    // 生命周期 页面创建时
+    created() {
+        // 获取用户信息 
+        this.getUserInfo();
+        // 接收更新头像通知 监听自定义通知事件
+        this.$bus.$on('updataAvatar',()=>{
+            // 收到通知 执行获取用户信息
+            this.getUserInfo();
+        });
+    },
     // 方式1 侦听器
     watch: {
         // 监听路由变化 更新面包屑列表

@@ -56,3 +56,20 @@ export const batchDelUserReq = (params) => {
         params
     })
 }
+
+// 获取账号（个人中心）信息
+export const getUserInfoReq = () => {
+    return request({
+        url: '/users/info',
+        method: 'get'
+    })
+}
+
+// 修改用户头像
+export const editAvatarReq = (params) => {
+    return request({
+        url: '/users/avataredit',
+        method: 'get',
+        params
+    })
+}
