@@ -13,7 +13,7 @@ export default {
     methods: {
         // 计算table宽度  保留最小宽度
         calcTableWidth() {
-            if (document.body.clientWidth > 800)
+            if (document.body.clientWidth > 754)
                 this.tableWidth = document.body.clientWidth - 291;
         },
     },
