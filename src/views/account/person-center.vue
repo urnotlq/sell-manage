@@ -38,6 +38,8 @@
 <script>
 // 引入ajax接口函数
 import { editAvatarReq } from '@/api/user.js';
+// 引入local函数
+import local from '@/utils/local.js';
 export default {
     data() {
         return {
@@ -52,12 +54,9 @@ export default {
             let { code, imgUrl, msg } = res;
             // 判断
             if (code === 0) {
-                this.$message.success(msg);
                 // 数据回显
                 this.userInfo.imgUrl = this.API + imgUrl;
-            } else {
-                this.$message.error(msg);
-            }
+            } 
         },
         // 文件上传前
         beforeAvatarUpload(file) {
@@ -80,22 +79,19 @@ export default {
             let imgUrl = this.userInfo.imgUrl.slice(index+1);
             // 发送请求
             let res = await editAvatarReq({imgUrl});
-            // 解构数据
+            // 解构数据 
             let {code, msg} = res.data;
             // 判断
             if(code===0){
-                this.$message.success(msg);
                 // 通知头部更新头像 触发自定义通知事件 
                 this.$bus.$emit('updataAvatar');
-            }else{
-                this.$message.error(msg);
             }
         },
     },
     // 生命周期 页面创建时
     created () {
         // 从本地抓取用户信息
-        this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        this.userInfo = local.get('userInfo');
     },
 }
 </script>

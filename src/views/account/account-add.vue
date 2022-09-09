@@ -76,11 +76,7 @@ export default {
                     // 返回判断
                     if(code === 0){
                         // 请求成功 弹出消息框 返回账号列表页面
-                        this.$message.success(msg)
                         this.$router.push('/account')
-                    }else{
-                        // 请求失败
-                        this.$message.error(msg)
                     }
                 } else {
                     console.log('校验失败');

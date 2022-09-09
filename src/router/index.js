@@ -203,8 +203,36 @@ const routes = [
 
 ]
 
+// 创建路由实例
 const router = new VueRouter({
     routes
+})
+
+/**
+ * 全局前置路由守卫
+ * @param {到哪去 路由对象} to 
+ * @param {从哪来 路由对象} from 
+ * @param {放行方法} next 
+ */
+router.beforeEach((to, from, next) => {
+    // 获取本地token
+    const token = localStorage.getItem('t_k');
+    /* 
+    if (token) {
+        // 有token 放行
+        next();
+    } else {
+        if (to.path === '/login') {
+            // 去登录页面 放行
+            next();
+        } else {
+            // 无token 去登录
+            next('/login');
+        }
+    } */
+    // 目的地为login直接放行  无token则跳转到login
+    if (to.path !== '/login' && !token) next('/login')
+    else next()
 })
 
 // 处理重复点击导航 路由push地址冗余 控制台报错

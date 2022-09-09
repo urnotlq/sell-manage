@@ -32,6 +32,8 @@
 <script>
 // 引入ajax接口函数
 import { getUserInfoReq } from '@/api/user.js';
+// 引入local函数 
+import local from '@/utils/local.js';
 export default {
     data() {
         return {
@@ -53,7 +55,7 @@ export default {
                     break;
                 case 'logout':
                     // 页面数据处理 清除登录信息
-                    localStorage.clear();
+                    local.clear();
                     // 跳转至登录
                     this.$router.push('/login');
                     break;
@@ -84,7 +86,7 @@ export default {
             // 传递数据
             this.userInfo = res.data;
             // 将用户信息打入本地 供其他页面使用
-            localStorage.setItem('userInfo', JSON.stringify(res.data));
+            local.set('userInfo', res.data);
         },
     },
     // 生命周期 页面创建时

@@ -46,6 +46,8 @@
 import { checkAccount, checkPassword } from '@/utils'
 // 引入接口函数
 import { checkLoginReq } from '@/api/user.js';
+// 引入local函数
+import local from '@/utils/local.js';
 
 export default {
     data() {
@@ -82,12 +84,9 @@ export default {
                     // 根据返回的数据做行动
                     if(code === 0){
                         // 成功 弹出消息 存储token 跳转首页
-                        this.$message.success(msg)
-                        localStorage.setItem('t_k', token)
-                        this.$router.push('/')
-                    }else{
-                        // 失败
-                        this.$message.error(msg)
+                        local.set('t_k', token);
+                        let { redirect } = this.$route.query;
+                        this.$router.push(redirect || '/');
                     }
                 } else {
                     // 校验失败

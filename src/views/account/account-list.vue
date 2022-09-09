@@ -170,11 +170,8 @@ export default {
             let { code, msg } = res.data;
             // 判断
             if (code === 0) {
-                this.$message.success(msg);
                 // 拉取列表数据
                 this.getData();
-            } else {
-                this.$message.error(msg);
             }
         },
         // 删除账号
@@ -187,12 +184,9 @@ export default {
             let { code, msg } = res.data;
             // 判断
             if (code === 0) {
-                this.$message.success('账号删除成功');
                 // 刷新列表
                 this.getData();
-            } else {
-                this.$message.error('账号删除失败');
-            }
+            } 
         },
         // 确认删除框
         confirmDelete(row) {
@@ -239,11 +233,8 @@ export default {
                 let { code, msg } = res.data;
                 // 判断
                 if (code === 0) {
-                    this.$message.success(msg);
                     // 重新拉取数据
                     this.getData();
-                } else {
-                    this.$message.error(msg);
                 }
             }).catch(() => {
                 this.$message({
