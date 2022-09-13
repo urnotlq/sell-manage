@@ -44,11 +44,26 @@ const routes = [
             path: '/order',
             title: '订单管理'
         },
-        children: [{
-            path: '',
-            component: () =>
-                import ('@/views/order')
-        }]
+        children: [
+            // 订单列表
+            {
+                path: '',
+                component: () =>
+                    import ('@/views/order')
+            },
+            // 订单详情
+            {
+                path: '/order-detail',
+                component: () =>
+                    import ('@/views/order/order-detail')
+            },
+            // 编辑订单
+            {
+                path: 'order-edit',
+                component: () =>
+                    import ('@/views/order/order-edit')
+            },
+        ]
     },
     // 商品管理
     {
