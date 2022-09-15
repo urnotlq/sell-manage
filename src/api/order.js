@@ -19,3 +19,11 @@ export const getOrderDetailReq = (params) => {
         params,
     })
 }
+
+// 首页统计报表
+export const getTotalDataReq = () => {
+    return request({
+        url: '/order/totaldata',
+        method: 'get'
+    })
+}
