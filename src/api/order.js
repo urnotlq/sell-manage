@@ -27,3 +27,12 @@ export const getTotalDataReq = () => {
         method: 'get'
     })
 }
+
+// 订单统计报表
+export const getOrderTotalReq = (params) => {
+    return request({
+        url: '/order/ordertotal',
+        method: 'get',
+        params
+    })
+}
