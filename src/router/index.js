@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import local from '@/utils/local';
 
 // 引入页面级别组件  静态引入——预编译时引入
 import Layout from '@/layout';
@@ -9,7 +10,8 @@ Vue.use(VueRouter)
 
 /* 通过 this.$route [路由信息对象] 中的meta属性 可以存储一些信息*/
 
-// 配合页面级别组件与路由地址的一一对应关系
+/* 路由拆分 ———— 静态路由、动态路由、错误路由 */
+// 静态路由（所有用户可见）
 const routes = [
     // 登录
     {
@@ -36,6 +38,12 @@ const routes = [
                 import ('@/views/home')
         }]
     },
+
+]
+
+// 动态路由（区分权限） 
+// 在meta里配置 roles: ['super'] 设置仅super权限可见
+const dynamicRoues = [
     // 订单管理
     {
         path: '/order',
@@ -60,6 +68,9 @@ const routes = [
             // 编辑订单
             {
                 path: 'order-edit',
+                meta: {
+                    roles: ['super'],
+                },
                 component: () =>
                     import ('@/views/order/order-edit')
             },
@@ -92,7 +103,8 @@ const routes = [
                     import ('@/views/goods/goods-add'),
                 meta: {
                     path: '/goods-add',
-                    title: '商品添加'
+                    title: '商品添加',
+                    roles: ['super'],
                 },
             },
             // 商品分类
@@ -114,7 +126,8 @@ const routes = [
         component: Layout,
         meta: {
             path: '/shop',
-            title: '店铺管理'
+            title: '店铺管理',
+            roles: ['super'],
         },
         children: [{
             path: '',
@@ -139,7 +152,8 @@ const routes = [
                     import ('@/views/account/account-list'),
                 meta: {
                     path: '/account-list',
-                    title: '账号列表'
+                    title: '账号列表',
+                    roles: ['super'],
                 },
             },
             // 添加账号
@@ -149,7 +163,8 @@ const routes = [
                     import ('@/views/account/account-add'),
                 meta: {
                     path: '/account-add',
-                    title: '添加账号'
+                    title: '添加账号',
+                    roles: ['super'],
                 },
             },
             // 修改密码
@@ -181,7 +196,8 @@ const routes = [
         redirect: '/total-goods',
         meta: {
             path: '/total',
-            title: '销售统计'
+            title: '销售统计',
+            roles: ['super'],
         },
         children: [
             // 商品统计
@@ -206,6 +222,10 @@ const routes = [
             },
         ]
     },
+]
+
+// 错误路由
+const errorRoutes = [
     // 404页面
     {
         path: '*',
@@ -214,14 +234,65 @@ const routes = [
         path: '/404',
         component: () =>
             import ('@/views/error404')
-    }
-
+    },
 ]
 
 // 创建路由实例
 const router = new VueRouter({
     routes
 })
+
+
+/* 判断用户是否有权限 */
+const isPermission = (role, route) => {
+    if (route.meta && route.meta.roles) {
+        // 有roles 验证其中是否role值
+        return route.meta.roles.includes(role);
+    } else {
+        // 没有roles 所有人都能访问
+        return true;
+    }
+
+}
+
+/**
+ * 动态计算路由
+ * @param {用户角色（字符串）} role 
+ * @param {需要计算的路由（数组）} routes 
+ */
+const calcDynamic = (role, routes) => {
+    let res = [];
+    routes.forEach(v => {
+        // 如果当前路由有权限 则存入结果路由
+        if (isPermission(role, v)) {
+            // 如果当前路由的儿子非空 则筛选出符合条件的儿子
+            if (v.children && v.children.length) {
+                v.children = calcDynamic(role, v.children);
+            }
+            res.push(v);
+        }
+    })
+
+    // 返回符合条件的动态路由
+    return res;
+}
+
+/* 创建路由函数 */
+export const createRouter = () => {
+    // 获取本地角色
+    const role = local.get('role');
+    // 无角色 跳出
+    if (!role) return;
+    // 计算出可以使用的路由 传入当前用户角色和需要计算的路由
+    const accessRoutes = calcDynamic(role, dynamicRoues);
+
+    // 把筛选好的路由添加进静态路由中
+    router.addRoutes([...accessRoutes, ...errorRoutes]);
+}
+
+// 初始化创建路由
+createRouter();
+
 
 /**
  * 全局前置路由守卫

@@ -48,6 +48,8 @@ import { checkAccount, checkPassword } from '@/utils'
 import { checkLoginReq } from '@/api/user.js';
 // 引入local函数
 import local from '@/utils/local.js';
+// 引入创建路由函数
+import {createRouter} from '@/router';
 
 export default {
     data() {
@@ -84,7 +86,11 @@ export default {
                     // 根据返回的数据做行动
                     if(code === 0){
                         // 成功 弹出消息 存储token 跳转首页
+                        local.set('role',role);    // 存储用户权限
                         local.set('t_k', token);
+                        // 验证身份 创建路由
+                        createRouter();
+
                         let { redirect } = this.$route.query;
                         this.$router.push(redirect || '/');
                     }

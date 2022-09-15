@@ -56,6 +56,8 @@ export default {
                 case 'logout':
                     // 页面数据处理 清除登录信息
                     local.clear();
+                    // 刷新页面 重置路由
+                    location.reload();
                     // 跳转至登录
                     this.$router.push('/login');
                     break;
