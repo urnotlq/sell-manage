@@ -44,3 +44,30 @@ export const addGoodsReq = (data) => {
         data
     })
 }
+
+// 获取商品列表接口
+export const getGoodsListReq = (params) => {
+    return request({
+        url: '/goods/list',
+        method: 'get',
+        params
+    })
+}
+
+// 删除商品接口
+export const delGoodsReq = (params) => {
+    return request({
+        url: '/goods/del',
+        method: 'get',
+        params
+    })
+}
+
+// 修改商品接口
+export const editGoodsReq = (data) => {
+    return request({
+        url: '/goods/edit',
+        method: 'post',
+        data
+    })
+}
