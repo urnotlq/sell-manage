@@ -17,11 +17,13 @@ const routes = [
     {
         path: '/login',
         component: Login,
+        hidden: true, // 加上hidden字段表明不是菜单
     },
     // 首页重定向
     {
         path: '/',
         redirect: '/home',
+        hidden: true, // 加上hidden字段表明不是菜单
     },
     // 后台首页
     {
@@ -29,7 +31,8 @@ const routes = [
         component: Layout,
         meta: {
             path: '/home',
-            title: '后台首页'
+            title: '后台首页',
+            icon: 'icon-home',
         },
         children: [{
             path: '',
@@ -50,7 +53,8 @@ const dynamicRoues = [
         component: Layout,
         meta: {
             path: '/order',
-            title: '订单管理'
+            title: '订单管理',
+            icon: 'icon-order',
         },
         children: [
             // 订单列表
@@ -63,7 +67,8 @@ const dynamicRoues = [
             {
                 path: '/order-detail',
                 component: () =>
-                    import ('@/views/order/order-detail')
+                    import ('@/views/order/order-detail'),
+                hidden: true, // 加上hidden字段表明不是菜单
             },
             // 编辑订单
             {
@@ -72,7 +77,8 @@ const dynamicRoues = [
                     roles: ['super'],
                 },
                 component: () =>
-                    import ('@/views/order/order-edit')
+                    import ('@/views/order/order-edit'),
+                hidden: true, // 加上hidden字段表明不是菜单
             },
         ]
     },
@@ -83,7 +89,8 @@ const dynamicRoues = [
         redirect: '/goods-list',
         meta: {
             path: '/goods',
-            title: '商品管理'
+            title: '商品管理',
+            icon: 'icon-goods',
         },
         children: [
             // 商品列表
@@ -127,6 +134,7 @@ const dynamicRoues = [
         meta: {
             path: '/shop',
             title: '店铺管理',
+            icon: 'icon-shop',
             roles: ['super'],
         },
         children: [{
@@ -142,7 +150,8 @@ const dynamicRoues = [
         redirect: '/account-list',
         meta: {
             path: '/account',
-            title: '账号管理'
+            title: '账号管理',
+            icon: 'icon-account',
         },
         children: [
             // 账号列表
@@ -197,6 +206,7 @@ const dynamicRoues = [
         meta: {
             path: '/total',
             title: '销售统计',
+            icon: 'icon-total',
             roles: ['super'],
         },
         children: [
@@ -277,6 +287,23 @@ const calcDynamic = (role, routes) => {
     return res;
 }
 
+/* 计算菜单 */
+const filterMenu = (routes) => {
+    let res = [];
+    routes.forEach(v => {
+        // 将路由中没有hidden字段的筛选出来
+        if (!v.hidden) {
+            // 处理二级路由的hidden
+            if (v.children && v.children.length) {
+                v.children = filterMenu(v.children);
+            }
+            // 保存符合条件的路由
+            res.push(v);
+        }
+    })
+    return res;
+}
+
 /* 创建路由函数 */
 export const createRouter = () => {
     // 获取本地角色
@@ -288,6 +315,11 @@ export const createRouter = () => {
 
     // 把筛选好的路由添加进静态路由中
     router.addRoutes([...accessRoutes, ...errorRoutes]);
+
+    // 计算导航菜单
+    let menu = filterMenu([...routes, ...accessRoutes]);
+    // 导航菜单存入本地
+    local.set('menu', menu);
 }
 
 // 初始化创建路由
