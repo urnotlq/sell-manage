@@ -30,7 +30,7 @@ import { getTotalDataReq } from '@/api/order';
 import CardList from './CardList.vue';
 import ChartLine from './ChartLine.vue';
 // 引入echars
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
 export default {
     // 组件注册
     components:{

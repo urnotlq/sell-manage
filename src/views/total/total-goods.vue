@@ -25,7 +25,7 @@ import { getOrderTotalReq } from '@/api/order';
 // 引入过滤器处理函数
 import { formatDateYMDhms } from '@/filters';
 // 引入echarts组件
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
 export default {
     data() {
         return {
