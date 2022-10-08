@@ -9,13 +9,13 @@
 
 ## 项目展示
 
-![1](D:\ch\Desktop\static\1.png)
+![1](static/1.png)
 
-![2](D:\ch\Desktop\static\2.png)
+![2](static/2.png)
 
-![3](D:\ch\Desktop\static\3.png)
+![3](static/3.png)
 
-![4](D:\ch\Desktop\static\4.png)
+![4](static/4.png)
 
 ## 技术开发
 
